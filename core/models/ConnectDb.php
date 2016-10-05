@@ -24,7 +24,7 @@ class ConnectDb
 
     public static function connectDb()
     {
-        $conf = require(__DIR__ . '/../configs/configDb.php');
+        $conf = require(__DIR__ . '/../../configs/db.php');
         self::$connection = new \PDO("mysql:host=" . $conf['dbhost'] . ";dbname=" . $conf['dbname'], $conf['dbuser'], $conf['dbpass']);
         self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }

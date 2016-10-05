@@ -39,6 +39,7 @@ class ModelDb
             $request = "SELECT * FROM " . $this->getTableName() . " ";
         } else {
             $request = $this->select;
+            $request .= "FROM " . $this->getTableName() . " ";
         }
         if ($this->where !== null) {
             foreach ($this->where as $value) {

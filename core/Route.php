@@ -69,11 +69,8 @@ class Route
         $obj = new $class();
         $actionParameters = (new \ReflectionMethod ($obj, $action))->getParameters();
         $numberOfParameters = count($actionParameters);
-        if ($numberOfParameters === 0) {
-            call_user_func_array([$obj, $action], []);
-        } elseif ($numberOfParameters !== 0 && $this->params === null) {
-            throw new \Exception("You haven't set any parameters to call a function! It needs $numberOfParameters arguments.");
-        } else {
+        $newArgumentsOrder = [];
+        if ($numberOfParameters !== 0){
             foreach ($actionParameters as $key => $value) {
                 if (!key_exists($value->name, $this->params)) {
                     throw new \Exception("You haven't set \"$value->name\" value. Not enough parameters to call a function!");
@@ -81,8 +78,8 @@ class Route
                     $newArgumentsOrder[] = $this->params[$value->name];
                 }
             }
-            call_user_func_array([$obj, $action], $newArgumentsOrder);
         }
+        call_user_func_array([$obj, $action], $newArgumentsOrder);
     }
 
     public function parseUrl()

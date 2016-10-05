@@ -19,14 +19,17 @@ trait RequestBuilder
         } else {
             $this->select = "SELECT " . $params . " ";
         }
-        $this->select .= "FROM " . $this->getTableName() . " ";
         return $this;
     }
 
-    public function whereBetween (...$params)
+    public function whereBetween(...$params)
     {
-        $this->addWhereClose("AND", [$params[0], 'between', $params[1], $params[2]]);
-        return $this;
+        if (count($params) === 3) {
+            $this->addWhereClose("AND", [$params[0], 'between', $params[1], $params[2]]);
+            return $this;
+        } else {
+            throw new \Exception('Wrong number of parameters in whereBetween condition!');
+        }
     }
 
     public function orwhere(...$params)
@@ -57,7 +60,7 @@ trait RequestBuilder
             $where = "WHERE ";
         } elseif ($condition === "OR") {
             $where = "OR ";
-        } elseif ($condition === "AND") {
+        } else {
             $where = "AND ";
         }
         $numberOfParams = count($params);
@@ -131,30 +134,16 @@ trait RequestBuilder
         return $this;
     }
 
+    public function OrWhereBetween(...$params)
+    {
+        $this->orwhere($params[0], 'between', $params[1], $params[2]);
+    }
+
     public function __call($name, $arguments)
     {
         $lowerNames = str_replace('where', '', strtolower($name));
-        $orPosition = stripos($lowerNames, 'or');
-        $betweenPosition = strripos($lowerNames, 'between');
         $numberOfArguments = count($arguments);
-        if (
-            $orPosition !== false
-            && $betweenPosition === false
-        ) {  //orWhere
-            $this->orwhere($arguments);
-        } elseif (
-            $orPosition !== false
-            && $betweenPosition !== false
-            && $numberOfArguments === 3
-        ) { //OrWhereBetween
-            $this->orwhere($arguments[0], 'between', $arguments[1], $arguments[2]);
-        } elseif (
-            $orPosition === false
-            && $betweenPosition !== false
-            && $numberOfArguments === 3
-        ) {  //whereBetween
-            $this->where($arguments[0], 'between', $arguments[1], $arguments[2]);
-        } else {    //whereIdAndName()
+            //whereIdAndName()
             $columns = explode("and", $lowerNames);
             $conditionNumber = count($columns);
             if ($conditionNumber === $numberOfArguments) {
@@ -165,7 +154,6 @@ trait RequestBuilder
             } else {
                 throw new \Exception("Wrong number of arguments in \"Where\" condition!");
             }
-        }
         return $this;
     }
 

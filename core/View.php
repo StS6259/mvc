@@ -8,9 +8,7 @@ class View
     {
         $pathView = Config::get("root__path") . $path . ".php";
         if (file_exists($pathView)) {
-            foreach ($arguments as $key => $value) {
-                $$key = $value;
-            }
+            extract($arguments);
             unset($arguments);
             require $pathView;
         } else {
