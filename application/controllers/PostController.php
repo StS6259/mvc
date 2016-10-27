@@ -20,7 +20,6 @@ class PostController extends BaseController
 
     public function create()
     {
-        dd(IpApi::getGeo());
         return $this->view('create');
     }
 
