@@ -47,6 +47,7 @@ class Auth
         }
         $_SESSION['user_id'] = $member->result['id'];
         $_SESSION['country_code'] = $countyCode;
+        $_SESSION['user_name'] = $member->result['nickname'];
     }
 
     /**
@@ -54,7 +55,7 @@ class Auth
      */
     public static function getCountryCode()
     {
-        return $_SESSION['country_code'] ?? null;
+        return self::getDataFromSession('country_code');
     }
 
     /**
@@ -71,7 +72,18 @@ class Auth
      */
     public static function getUserId()
     {
-        return $_SESSION['user_id'] ?? null;
+        return self::getDataFromSession('user_id');
+
+    }
+
+    public static function getNickName()
+    {
+        return self::getDataFromSession('user_name');
+    }
+
+    protected function getDataFromSession($key)
+    {
+        return $_SESSION[$key] ?? null;
     }
 
 }

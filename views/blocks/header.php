@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <?php if (core\auth\Auth::check()) :?>
-                    <li><a href="<?php echo route('login/logout')?>">Logout</a></li>
+                    <li><a href="<?php echo route('login/logout')?>">Logout (<?php echo \core\auth\Auth::getNickName()?>)</a></li>
                 <?php else :?>
                     <li><a href="<?php echo route('login')?>">Login</a></li>
                     <li><a href="<?php echo route('register')?>">Register</a></li>
