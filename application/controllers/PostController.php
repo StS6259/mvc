@@ -33,6 +33,7 @@ class PostController extends BaseController
                 'title' => $data['title'],
                 'content' => $data['content'],
                 'member_id' => Auth::user()->result['id'],
+                'country_code' => Auth::getCountryCode()
             ]);
             Messages::success(['Article successfully created.']);
             return $this->redirect('/');

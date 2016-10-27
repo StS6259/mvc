@@ -14,6 +14,7 @@ require __DIR__.'/../blocks/header.php'?>
         <tr>
             <th>Title</th>
             <th>Content</th>
+            <th>Country Code</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@ require __DIR__.'/../blocks/header.php'?>
             <tr>
                 <td><?php echo $post->result['title']?></td>
                 <td><?php echo $post->result['content']?></td>
+                <td><?php echo $post->result['country_code']?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

@@ -13,6 +13,15 @@ final class IpApi
         return self::sendRequest($ip);
     }
 
+    public static function getCountryCode($ip = null)
+    {
+        if ($ip === null) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        $data = self::getGeo($ip);
+        return $data['countryCode'] ?? null;
+    }
+
     private static function sendRequest($ip)
     {
         $curl = curl_init();
@@ -34,7 +43,7 @@ final class IpApi
         if ($err) {
             return "cURL Error #:" . $err;
         } else {
-            return  json_decode($response);
+            return  json_decode($response, true);
         }
     }
 }

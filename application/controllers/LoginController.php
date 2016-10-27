@@ -2,7 +2,9 @@
 
 namespace application\controllers;
 
+use application\components\IpApi;
 use application\components\Messages;
+use application\models\MemberIpsModel;
 use application\models\MemberModel;
 use core\auth\Auth;
 use core\controllers\BaseController;
@@ -28,6 +30,7 @@ class LoginController extends BaseController
         $this->checkForPost();
         $data = $_POST;
         if (($member = $this->validateLogin($data)) !== false) {
+
             Auth::login($member);
         } else {
             Messages::error(['Invalid nickname or password.']);
