@@ -28,7 +28,6 @@ class Auth
     public static function login(Authenticated $member)
     {
         $ip = $_SERVER['REMOTE_ADDR'];
-        $ip = '141.101.5.45'; //todo delete in prod
 
         $ips = (new MemberIpsModel())
             ->where('ip', $ip)
