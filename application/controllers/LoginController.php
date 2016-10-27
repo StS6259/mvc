@@ -36,7 +36,6 @@ class LoginController extends BaseController
         $this->checkForPost();
         $data = $_POST;
         if (($member = $this->validateLogin($data)) !== false) {
-
             Auth::login($member);
         } else {
             Messages::error(['Invalid nickname or password.']);
