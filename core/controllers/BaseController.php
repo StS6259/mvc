@@ -29,7 +29,7 @@ class BaseController
         return $path . '/';
     }
 
-    protected function checkLogin()
+    protected function checkIfAuthenticated()
     {
         if (!Auth::check()) {
             $this->redirect('/login');

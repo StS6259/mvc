@@ -2,6 +2,8 @@
 
 namespace core\auth;
 
+use application\models\MemberModel;
+
 class Auth
 {
     public static function check()
@@ -24,5 +26,10 @@ class Auth
     public static function login(Authenticated $member)
     {
         $_SESSION['user_id'] = $member->result['id'];
+    }
+
+    public static function user()
+    {
+        return (new MemberModel())->find($_SESSION['user_id']);
     }
 }

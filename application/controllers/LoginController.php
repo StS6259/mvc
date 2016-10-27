@@ -17,7 +17,7 @@ class LoginController extends BaseController
 
     public function logout()
     {
-        $this->checkLogin();
+        $this->checkIfAuthenticated();
         Auth::logout();
         return $this->redirect('/');
     }

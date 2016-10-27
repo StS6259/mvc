@@ -16,14 +16,13 @@ class ModelDb
 
     public function find($data)
     {
-        if (is_integer($data)) {
+        if (is_numeric($data)) {
             $where = 'id';
             $value = $data;
         } else {
             $where = key($data);
             $value = $data[$where];
         }
-//        dd($where, $value);
         $sql = "SELECT * FROM " . $this->getTableName() . " WHERE {$where} = '{$value}'";
         $this->connection = ConnectDb::getConnection();
         $request = $this->connection->prepare($sql);
@@ -75,7 +74,7 @@ class ModelDb
 
     }
 
-    public function create(array $data)
+    public function create(array $data, $key = 'id')
     {
         $this->connection = ConnectDb::getConnection();
         $fields = array_keys($data);
@@ -85,9 +84,20 @@ class ModelDb
             },$data)) . ')';
         $request = $this->connection->prepare($sql);
         if ($request->execute()) {
-            return $this->find(['email' => $data['email']]);
+            return $this->getLastRecord();
         }
         return null;
+    }
+
+    protected function getLastRecord()
+    {
+        $sql = "SELECT * FROM " . $this->getTableName() . " ORDER BY ID DESC LIMIT 1";
+        $this->connection = ConnectDb::getConnection();
+        $request = $this->connection->prepare($sql);
+        $request->execute();
+        $row = $request->fetch(\PDO::FETCH_ASSOC);
+        $this->result = $row;
+        return $this;
     }
 
 }

@@ -6,11 +6,8 @@ if (!function_exists('dd')) {
 }
 if (!function_exists('route')) {
     function route($string) {
-        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
-        if ($string == '/') {
-            return $url . '/';
-        }
-        return $url . '/' . $string;
+        $string = ltrim($string, '/');
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $string;
     }
 }
 

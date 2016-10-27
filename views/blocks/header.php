@@ -9,15 +9,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">POSTS</a>
+            <a class="navbar-brand" href="<?php echo route('/') ?>">POSTS</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (core\auth\Auth::check()) :?>
                     <li><a href="<?php echo route('login/logout')?>">Logout</a></li>
