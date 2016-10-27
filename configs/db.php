@@ -2,6 +2,6 @@
 return [
     'dbhost' => 'localhost',
     'dbuser' => 'root',
-    'dbpass' => 'root',
-    'dbname' => 'mvc',
+    'dbpass' => 'alex123',
+    'dbname' => 'posts',
 ];

@@ -1,7 +1,6 @@
 <?php
-namespace core;
 
-use modules\User\controllers\UserController;
+namespace core;
 
 class Route
 {
@@ -89,7 +88,7 @@ class Route
             $params = explode("&", $address[1]);
             foreach ($params as $item) {
                 $couples = explode("=", $item);
-                if ($couples[1] !== "") {
+                if (isset($couples[1]) &&$couples[1] !== "") {
                     $this->params[$couples[0]] = $couples[1];
                 }
             }

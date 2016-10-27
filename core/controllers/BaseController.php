@@ -1,7 +1,8 @@
 <?php
+
 namespace core\controllers;
 
-
+use core\auth\Auth;
 use core\View;
 
 class BaseController
@@ -27,4 +28,31 @@ class BaseController
         }
         return $path . '/';
     }
+
+    protected function checkLogin()
+    {
+        if (!Auth::check()) {
+            $this->redirect('/login');
+        }
+    }
+
+    protected function checkIfGuest()
+    {
+        if (Auth::check()) {
+            $this->redirect('/');
+        }
+    }
+
+    protected function redirect($route)
+    {
+        header('Location: ' . route($route));
+    }
+
+    protected function checkForPost($route = '/')
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect($route);
+        }
+    }
+
 }
