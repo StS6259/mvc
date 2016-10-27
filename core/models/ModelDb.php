@@ -14,6 +14,11 @@ class ModelDb
     {
     }
 
+    /**
+     * return one record from db
+     * @param $data
+     * @return $this|null
+     */
     public function find($data)
     {
         if (is_numeric($data)) {
@@ -35,6 +40,10 @@ class ModelDb
         return $this;
     }
 
+    /**
+     * execute sql
+     * @return array
+     */
     public function all()
     {
         $this->connection = ConnectDb::getConnection();
@@ -74,13 +83,19 @@ class ModelDb
 
     }
 
-    public function create(array $data, $key = 'id')
+    /**
+     * insert record to table
+     * @param array $data
+     * @param string $key
+     * @return ModelDb|null
+     */
+    public function create(array $data)
     {
         $this->connection = ConnectDb::getConnection();
         $fields = array_keys($data);
         $sql = "INSERT INTO " . $this->getTableName() . ' (' . implode(',', $fields) .
             ') VALUES (' . implode(',', array_map(function ($item) {
-                return "\"{$item}\"";//todo mysqli_real_escape_string
+                return "\"{$item}\"";
             },$data)) . ')';
         $request = $this->connection->prepare($sql);
         if ($request->execute()) {

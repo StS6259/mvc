@@ -14,6 +14,11 @@ class BaseController
         return new View($this->getViewPath() . $view, $arguments);
     }
 
+    /**
+     * generate view path
+     * @return string
+     * @throws \Exception
+     */
     protected function getViewPath()
     {
         $class = get_called_class();
@@ -29,6 +34,9 @@ class BaseController
         return $path . '/';
     }
 
+    /**
+     * if user unauthenticated - redirect to login page
+     */
     protected function checkIfAuthenticated()
     {
         if (!Auth::check()) {
@@ -36,6 +44,9 @@ class BaseController
         }
     }
 
+    /**
+     * if user authenticated - redirect to main page
+     */
     protected function checkIfGuest()
     {
         if (Auth::check()) {
@@ -43,11 +54,17 @@ class BaseController
         }
     }
 
+    /**
+     * @param $route
+     */
     protected function redirect($route)
     {
         header('Location: ' . route($route));
     }
 
+    /**
+     * @param string $route
+     */
     protected function checkForPost($route = '/')
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

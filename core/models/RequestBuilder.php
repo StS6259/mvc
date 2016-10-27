@@ -143,7 +143,6 @@ trait RequestBuilder
     {
         $lowerNames = str_replace('where', '', strtolower($name));
         $numberOfArguments = count($arguments);
-            //whereIdAndName()
             $columns = explode("and", $lowerNames);
             $conditionNumber = count($columns);
             if ($conditionNumber === $numberOfArguments) {

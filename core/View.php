@@ -4,6 +4,12 @@ namespace core;
 
 class View
 {
+    /**
+     * View constructor.
+     * @param $path
+     * @param $arguments
+     * @throws \Exception
+     */
     function __construct($path, $arguments)
     {
         $pathView = Config::get("root__path") . $path . ".php";
