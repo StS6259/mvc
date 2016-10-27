@@ -22,7 +22,9 @@
                     <li><a href="<?php echo route('register')?>">Register</a></li>
                 <?php endif?>
             </ul>
-
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div class="container">
+<?php include 'notification.php'?>
+</div>

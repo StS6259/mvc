@@ -6,4 +6,4 @@ CREATE TABLE `member` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   UNIQUE KEY `users_nickname_unique` (`nickname`)
-) ENGINE=InnoDB AUTO_INC
+);

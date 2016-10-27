@@ -3,7 +3,7 @@
 namespace application\controllers;
 
 use application\models\MemberModel;
-use core\auth\Auth;
+use application\components\Messages;
 use core\controllers\BaseController;
 use core\Hash;
 
@@ -22,11 +22,10 @@ class RegisterController extends BaseController
 
         $post = $_POST;
         if ($this->validateRegister($post)) {
-            $member = $this->createMember($post);
-
-            Auth::login($member);
-            return $this->redirect('/');
+            $this->createMember($post);
+            return $this->redirect('/login');
         }
+
         return $this->redirect('/register');
     }
 
@@ -42,14 +41,17 @@ class RegisterController extends BaseController
     protected function validateRegister($request)
     {
         if (!isset($request['nickname']) || strlen($request['nickname']) < 4) {
+            Messages::error(['Invalid nickname field.']);
             return false;
         }
         if (!isset($request['email']) || !filter_var($request['email'], FILTER_VALIDATE_EMAIL)) {
+            Messages::error(['Invalid email field.']);
             return false;
         }
 
         if (!isset($request['password']) || !isset($request['repeat_password']) || strlen($request['password']) < 6 ||
             $request['password'] !== $request['repeat_password']) {
+            Messages::error(['Invalid passwords fields.']);
             return false;
         }
         $members = (new MemberModel())
@@ -57,6 +59,7 @@ class RegisterController extends BaseController
             ->orwhere('nickname', $request['nickname'])
             ->all();
         if (!empty($members)) {
+            Messages::error(['email or nickname already exist.']);
             return false;
         }
 
