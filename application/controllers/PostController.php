@@ -2,6 +2,7 @@
 
 namespace application\controllers;
 
+use application\components\IpApi;
 use application\models\ArticleModel;
 use core\auth\Auth;
 use core\controllers\BaseController;
@@ -19,6 +20,7 @@ class PostController extends BaseController
 
     public function create()
     {
+        dd(IpApi::getGeo());
         return $this->view('create');
     }
 
