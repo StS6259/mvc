@@ -59,7 +59,6 @@ class RegisterController extends BaseController
         if (!empty($members)) {
             return false;
         }
-        //todo проверка на уникальность
 
         return true;
     }
