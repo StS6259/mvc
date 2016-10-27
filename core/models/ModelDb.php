@@ -91,17 +91,34 @@ class ModelDb
      */
     public function create(array $data)
     {
-        $this->connection = ConnectDb::getConnection();
         $fields = array_keys($data);
         $sql = "INSERT INTO " . $this->getTableName() . ' (' . implode(',', $fields) .
             ') VALUES (' . implode(',', array_map(function ($item) {
-                return "\"{$item}\"";
+                return "\"" . trim($item) . "\"";
             },$data)) . ')';
-        $request = $this->connection->prepare($sql);
-        if ($request->execute()) {
+        if ($this->execute($sql)) {
             return $this->getLastRecord();
         }
         return null;
+    }
+
+    public function update(array $data, $id, $attribute = 'id')
+    {
+        $sql = 'UPDATE ' . $this->getTableName() . ' SET ';
+        $count = 1;
+        foreach ($data as $field => $value) {
+            $sql .= ($count++ === 1) ? '' : ',';
+            $sql .= "{$field} = \"" . trim($value) . "\"";
+        }
+        $sql .= " WHERE {$attribute} = \"$id\"";
+        return $this->execute($sql);
+    }
+
+    protected function execute($sql)
+    {
+        $this->connection = ConnectDb::getConnection();
+        $request = $this->connection->prepare($sql);
+        return $request->execute();
     }
 
     protected function getLastRecord()

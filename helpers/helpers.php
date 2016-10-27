@@ -5,9 +5,13 @@ if (!function_exists('dd')) {
     }
 }
 if (!function_exists('route')) {
-    function route($string) {
+    function route($string, $param = []) {
         $string = ltrim($string, '/');
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $string;
+        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' . $string;
+        if ($param) {
+            return $url . '?' . http_build_query($param);
+        }
+        return $url;
     }
 }
 

@@ -31,12 +31,50 @@ class PostController extends BaseController
         return $this->view('create');
     }
 
+    public function edit($id)
+    {
+        $this->checkIfAuthenticated();
+
+        $post = (new ArticleModel())->find($id);
+        $this->checkMembersPost($post);
+
+        return $this->view('edit', [
+            'post' => $post,
+        ]);
+    }
+
+    public function update($id)
+    {
+        $this->checkIfPost();
+        $this->checkMembersPost($id);
+        $data = $_POST;
+        if ($this->validatePost($data, $id)) {
+            (new ArticleModel())->update([
+                'title' => $data['title'],
+                'content' => $data['content'],
+            ], $id);
+            Messages::success(['Post successfully updated.']);
+        }
+        return $this->redirect('post/edit', ['id' => $id]);
+    }
+
+    protected function checkMembersPost($post)
+    {
+        if (!$post instanceof ArticleModel) {
+            $post = (new ArticleModel())->find($post);
+        }
+        if ($post === null || $post->result['member_id'] !== Auth::getUserId()) {
+            Messages::error(['You don\'t have permissions']);
+            return $this->redirect('/');
+        }
+    }
+
     /**
      * action for create post
      */
     public function store()
     {
-        $this->checkForPost();
+        $this->checkIfPost();
         $this->checkIfAuthenticated();
         $data = $_POST;
         if ($this->validatePost($data)) {
@@ -57,7 +95,7 @@ class PostController extends BaseController
      * @param $request
      * @return bool
      */
-    protected function validatePost($request)
+    protected function validatePost($request, $except = false)
     {
         if (!isset($request['title']) || strlen($request['title']) < 2) {
             Messages::error(['Invalid title field.']);
@@ -68,7 +106,11 @@ class PostController extends BaseController
             Messages::error(['Invalid content field.']);
             return false;
         }
-        $article = (new ArticleModel())->where('title', $request['title'])->all();
+        $article = (new ArticleModel())->where('title', $request['title']);
+        if ($except !== false) {
+            $article->where('id', '!=', $except);
+        }
+        $article = $article->all();
 
         if (!empty($article)) {
             Messages::error(['Title already exist.']);

@@ -15,6 +15,7 @@ require __DIR__.'/../blocks/header.php'?>
             <th>Title</th>
             <th>Content</th>
             <th>Country Code</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -23,6 +24,11 @@ require __DIR__.'/../blocks/header.php'?>
                 <td><?php echo $post->result['title']?></td>
                 <td><?php echo $post->result['content']?></td>
                 <td><?php echo $post->result['country_code']?></td>
+                <td>
+                    <?php if (Auth::getUserId() == $post->result['member_id']) :?>
+                        <a href="<?php echo route('post/edit', ['id' => $post->result['id']]) ?>" class="btn btn-success">Update</a>
+                    <?php endif;?>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>

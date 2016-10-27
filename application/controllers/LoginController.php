@@ -33,7 +33,7 @@ class LoginController extends BaseController
      */
     public function login()
     {
-        $this->checkForPost();
+        $this->checkIfPost();
         $data = $_POST;
         if (($member = $this->validateLogin($data)) !== false) {
             Auth::login($member);

@@ -56,16 +56,17 @@ class BaseController
 
     /**
      * @param $route
+     * @param array $params
      */
-    protected function redirect($route)
+    protected function redirect($route, $params = [])
     {
-        header('Location: ' . route($route));
+        header('Location: ' . route($route, $params));
     }
 
     /**
      * @param string $route
      */
-    protected function checkForPost($route = '/')
+    protected function checkIfPost($route = '/')
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->redirect($route);
