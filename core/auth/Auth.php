@@ -8,6 +8,10 @@ use application\models\MemberModel;
 
 class Auth
 {
+    /**
+     * check if user user login in
+     * @return bool
+     */
     public static function check()
     {
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] >= 1) {
@@ -45,16 +49,26 @@ class Auth
         $_SESSION['country_code'] = $countyCode;
     }
 
+    /**
+     * @return 'country_code' ||null
+     */
     public static function getCountryCode()
     {
         return $_SESSION['country_code'] ?? null;
     }
 
+    /**
+     *
+     * @return $this|null (currentUser)
+     */
     public static function user()
     {
         return (new MemberModel())->find($_SESSION['user_id']);
     }
 
+    /**
+     * @return mixed (current user id)
+     */
     public static function getUserId()
     {
         return $_SESSION['user_id'];

@@ -4,6 +4,11 @@ namespace core;
 
 final class Hash
 {
+    /**
+     * method for generate password
+     * @param $string
+     * @return string
+     */
     public static function make($string)
     {
         return md5(md5($string));

@@ -4,6 +4,10 @@ namespace application\components;
 
 final class IpApi
 {
+    /**
+     * @param null $ip
+     * @return mixed|string
+     */
     public static function getGeo($ip = null)
     {
         if ($ip === null) {
@@ -13,6 +17,10 @@ final class IpApi
         return self::sendRequest($ip);
     }
 
+    /**
+     * @param null $ip
+     * @return null
+     */
     public static function getCountryCode($ip = null)
     {
         if ($ip === null) {
@@ -22,6 +30,10 @@ final class IpApi
         return $data['countryCode'] ?? null;
     }
 
+    /**
+     * @param $ip
+     * @return mixed|string
+     */
     private static function sendRequest($ip)
     {
         $curl = curl_init();

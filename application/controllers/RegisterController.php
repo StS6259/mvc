@@ -9,6 +9,10 @@ use core\Hash;
 
 class RegisterController extends BaseController
 {
+    /**
+     * action for register form
+     * @return \core\View
+     */
     public function index()
     {
         $this->checkIfGuest();
@@ -16,6 +20,9 @@ class RegisterController extends BaseController
         return $this->view('registerForm');
     }
 
+    /**
+     * action for register
+     */
     public function register()
     {
         $this->checkIfGuest();
@@ -29,6 +36,11 @@ class RegisterController extends BaseController
         return $this->redirect('/register');
     }
 
+    /**
+     * save member to db
+     * @param $data
+     * @return \core\models\ModelDb|null
+     */
     protected function createMember($data)
     {
         return (new MemberModel)->create([
@@ -38,6 +50,11 @@ class RegisterController extends BaseController
         ]);
     }
 
+    /**
+     * action for validate register data
+     * @param $request
+     * @return bool
+     */
     protected function validateRegister($request)
     {
         if (!isset($request['nickname']) || strlen($request['nickname']) < 4) {

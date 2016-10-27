@@ -10,6 +10,10 @@ use core\controllers\BaseController;
 
 class PostController extends BaseController
 {
+    /**
+     * action for all posts
+     * @return \core\View
+     */
     public function index()
     {
         $posts = (new ArticleModel())->orderBy('id', 'desc')->all();
@@ -18,11 +22,18 @@ class PostController extends BaseController
         ]);
     }
 
+    /**
+     * action for form for create post
+     * @return \core\View
+     */
     public function create()
     {
         return $this->view('create');
     }
 
+    /**
+     * action for create post
+     */
     public function store()
     {
         $this->checkForPost();
@@ -41,6 +52,11 @@ class PostController extends BaseController
         return $this->redirect('post/create');
     }
 
+    /**
+     * action for validate date for post
+     * @param $request
+     * @return bool
+     */
     protected function validatePost($request)
     {
         if (!isset($request['title']) || strlen($request['title']) < 2) {

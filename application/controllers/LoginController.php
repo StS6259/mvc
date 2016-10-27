@@ -2,9 +2,7 @@
 
 namespace application\controllers;
 
-use application\components\IpApi;
 use application\components\Messages;
-use application\models\MemberIpsModel;
 use application\models\MemberModel;
 use core\auth\Auth;
 use core\controllers\BaseController;
@@ -12,11 +10,16 @@ use core\Hash;
 
 class LoginController extends BaseController
 {
+    /**
+     * show login form
+     * @return \core\View
+     */
     public function index()
     {
         $this->checkIfGuest();
         return $this->view('loginForm');
     }
+
 
     public function logout()
     {
@@ -25,6 +28,9 @@ class LoginController extends BaseController
         return $this->redirect('/');
     }
 
+    /**
+     * action for login user
+     */
     public function login()
     {
         $this->checkForPost();
@@ -39,6 +45,11 @@ class LoginController extends BaseController
         $this->redirect('/login');
     }
 
+    /**
+     * action for validate login form
+     * @param $request
+     * @return $this|bool
+     */
     protected function validateLogin($request)
     {
         if (!isset($request['nickname']) || strlen($request['nickname']) < 4) {
